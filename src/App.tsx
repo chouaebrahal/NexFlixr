@@ -1,35 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+
+
+import { useThemeStore } from "./store/useThemeStore";
+import { useEffect, lazy, Suspense } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "./Layout";
+import Loading from "./components/shared/Loading";
+
+// Lazy load pages for code splitting
+const Home = lazy(() => import("./components/pages/Home"));
+const Movies = lazy(() => import("./components/pages/Movies"));
+const Series = lazy(() => import("./components/pages/Series"));
+const MediaDetailsPage = lazy(() => import("./components/pages/MediaDetailsPage"));
+const BookMark = lazy(() => import("./components/pages/BookMark"));
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { theme } = useThemeStore();
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+  }, [theme]);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Router>
+      <Layout>
+        <Suspense fallback={<Loading />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/movies" element={<Movies />} />
+            <Route path="/series" element={<Series />} />
+            <Route path="media/:type/:id" element={<MediaDetailsPage />} />
+            <Route path="/bookmark" element={<BookMark />} />
+          </Routes>
+        </Suspense>
+      </Layout>
+    </Router>
+  );
 }
 
-export default App
+export default App;
