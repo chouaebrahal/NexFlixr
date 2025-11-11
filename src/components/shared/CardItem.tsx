@@ -3,7 +3,7 @@ import { useModalStore } from "@/store/useModalStore";
 import { useMediaStore } from "@/store/useMediaStore";
 import { TiPlus } from "react-icons/ti";
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -17,7 +17,7 @@ const CardItem = ({  poster_path, title, id, type, direct }: {  poster_path: str
   const watchListIds = useMediaStore(state => state.watchListIds)
   const setAlert = useModalStore(state => state.setAlert)
   const setMediaType = useMediaStore(state => state.setMediaType)
-
+  const navigate = useNavigate()
   const handleClick = (mediatype: 'movie' | 'tv', id: number) => {
     toggleModal()
     setMovieId(id)
@@ -28,6 +28,10 @@ const CardItem = ({  poster_path, title, id, type, direct }: {  poster_path: str
     toggleWatchList(type === 'movie' ? 'movie' : 'tv', id)
     setAlert(watchListIds.map(e => e.id).includes(id) ? "Removed from watch list" : "Added to watch List")
   }
+  const handleClickonSearch = () => {
+    navigate(`media/${type === "movie" ? "movies" : "series"}/${id}`)
+    closeSearchModal()
+  }
 
   // Generate a more descriptive alt text for accessibility
   const altText = title
@@ -36,7 +40,7 @@ const CardItem = ({  poster_path, title, id, type, direct }: {  poster_path: str
 
       if (direct) {
     return (
-      <Link onClick={closeSearchModal} to={`media/${type === "movie" ? "movies" : "series"}/${id}`} className="item relative h-[300px] rounded-2xl  shrink-0 snap-x snap-mandatory  cursor-pointer  hover:scale-101 transition-transform duration-300 ease-in-out border-0 " aria-label="View media details">
+      <button type='button' onClick={handleClickonSearch}  className="item relative h-[300px] rounded-2xl  shrink-0 snap-x snap-mandatory  cursor-pointer  hover:scale-101 transition-transform duration-300 ease-in-out border-0 " aria-label="View media details">
 
         <div onClick={(e) => addClick(e, id)} className="item-add absolute top-0 left-0 border-8 border-background w-15 h-15 rounded-2xl  grid place-items-center backdrop-blur-sm" aria-label={watchListIds.map(e => e.id).includes(id) ? "Remove from watchlist" : "Add to watchlist"}>
           {watchListIds.map(e => e.id).includes(id) ? <IoCheckmarkDoneCircle className="w-8 h-8 text-primary" aria-label="In watchlist" /> : <TiPlus className=" w-8 h-8 text-primary" aria-label="Add to watchlist" />}
@@ -48,7 +52,7 @@ const CardItem = ({  poster_path, title, id, type, direct }: {  poster_path: str
           loading="lazy" // Add lazy loading for performance
         />
 
-      </Link>
+      </button>
     )
 
 

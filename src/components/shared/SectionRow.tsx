@@ -65,6 +65,7 @@ const SectionRow = ({ title, data, loading, error, direct }: SectionRowProps) =>
       <motion.div
         variants={container}
         initial='hidden'
+        animate={`${direct && 'show'}`}
         whileInView="show"
         viewport={{ once: true, }}
         ref={scrollRef}
