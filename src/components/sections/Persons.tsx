@@ -5,9 +5,27 @@ import Loading from '../shared/Loading';
 
 const Persons = () => {
 
-    const { trendingPerson,personError,personLoading, fetchTrendingPerson } = usePersonStore();
+    const { trendingPerson, personError, personLoading, fetchTrendingPerson } = usePersonStore();
     const [togglePosition, setTogglePosition] = useState<boolean>(false)
-    const personRef = useRef<HTMLDivElement>(null)
+    const perRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        const scrollContainer = perRef.current
+        if (!scrollContainer) return
+
+        const handleWheel = (event: WheelEvent) => {
+            event.preventDefault()
+            scrollContainer.scrollBy({
+                left: event.deltaY < 0 ? -400 : 400,
+                behavior: 'smooth'
+            })
+        }
+
+        scrollContainer.addEventListener('wheel', handleWheel)
+        return () => scrollContainer.removeEventListener('wheel', handleWheel)
+    }, []) // correct
+
+
 
     useEffect(() => {
 
@@ -18,23 +36,9 @@ const Persons = () => {
     const handleToggleClick = () => {
         setTogglePosition(prev => !prev)
     }
-    
-    useEffect(() => {
-    const scrollContainer = personRef.current;
-    if(!scrollContainer) return;
-    const handleWheel = (event: WheelEvent) => {
-      event.preventDefault();
-      scrollContainer.scrollBy({
-        left: event.deltaY < 0 ? -400 : 400,
-        behavior: 'smooth'
-      })
-    }
-    scrollContainer.addEventListener('wheel', handleWheel);
-    return ()=>{
-      scrollContainer.removeEventListener('wheel', handleWheel);
-    }
-  },[])
-  
+
+
+
     let type: "ACTORS" | "OTHERS" = togglePosition ? "OTHERS" : "ACTORS";
     let filtredData: typeof trendingPerson = [];
     if (type === "OTHERS") {
@@ -62,18 +66,18 @@ const Persons = () => {
 
 
             </div>
-            <div className={`pt-8 m-0 w-full `}>
+            <div className={`pt-8 m-0 w-full h-60`}>
+                    <div ref={perRef} className='flex gap-5  items-center overflow-x-auto scrollbar-hide snap-x pb-4 snap-mandatory h-full'>
                 {personLoading ? <Loading /> : personError ? <div className='text-red-500 text-center'>{personError}</div> :
-                    <div ref={personRef}  className='flex gap-5  items-center overflow-x-auto scrollbar-hide'>
-                        {filtredData.map((person, index) => {
+                        filtredData.map((person, index) => {
                             return (
-                                <div  key={index} className='w-40 h-40 rounded-full overflow-hidden shrink-0 border-2 border-primary cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out'>
+                                <div key={index} className='w-40 h-40 rounded-full overflow-hidden shrink-0 border-2 border-primary cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out'>
                                     <img className='w-full object-contain' src={`https://image.tmdb.org/t/p/original${person.profile_path}`} alt={person.name} />
                                 </div>
                             )
-                        })}
+                        })
+                    }
                     </div>
-                }
             </div>
         </section>
     )
