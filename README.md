@@ -1,73 +1,138 @@
-# React + TypeScript + Vite
+# Nexflixr - Movie & TV Series Discovery Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern React application for discovering movies and TV series, built with React 19, TypeScript, and Tailwind CSS. The application integrates with the TMDB API to provide users with an engaging media browsing experience.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Media Discovery**: Browse trending movies and TV shows
+- **Advanced Search**: Comprehensive filtering options with multiple criteria
+- **Interactive Cards**: Detailed views for each media item
+- **Watchlist Functionality**: Add/remove items to your personal watchlist (persisted with localStorage)
+- **Responsive Design**: Mobile-first approach with responsive breakpoints
+- **Custom Animation**: Smooth animations and transitions using Framer Motion
+- **Dark/Light Mode**: Theme switching capability
+- **Person Profiles**: Browse actors, directors, and other crew members
+- **Detail Modals**: Comprehensive information for each media item
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend**: React 19 with TypeScript
+- **Styling**: Tailwind CSS
+- **State Management**: Zustand (custom stores)
+- **Animations**: Framer Motion
+- **API Integration**: TMDB API
+- **Routing**: React Router DOM
+- **Testing**: Vitest for unit tests
+- **Build Tool**: Vite
 
-## Expanding the ESLint configuration
+## 📁 Project Structure
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── components/          # React components
+│   ├── sections/        # Layout sections
+│   └── shared/          # Reusable components
+├── store/              # Zustand stores
+├── api/                # API service functions
+├── lib/                # Utility functions and types
+└── types/              # TypeScript type definitions
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🏗️ Core Stores
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **useMediaStore**: Manages media content (trending, search results, details, pagination)
+- **useModalStore**: Controls modal states and alert system
+- **usePersonStore**: Handles person/actor data management
+- **useThemeStore**: Manages dark/light theme preferences
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🎨 Design
+
+The UI/UX design was inspired by the [Movie & Series Website Community Figma design](https://www.figma.com/design/XFZ4irKbGvh9J3IhpLNZvn/Movie---Series-Website--Community-?node-id=0-1&p=f&t=xaL8FPATpZlOHQl9-0). The implementation follows modern design principles with a focus on user experience.
+
+## 🧪 Testing
+
+Started implementing unit tests with Vitest to learn and practice testing fundamentals. Basic tests cover:
+- Simple components like Button and Loading
+- Component rendering and user interactions
+- Testing core functionality
+
+## 🔧 Key Components
+
+- **CardItem**: Interactive media cards with watchlist toggle
+- **SectionRow**: Horizontal scrolling sections with animations
+- **SearchableDropdown**: Custom dropdown with search functionality
+- **AdvancedSearch**: Comprehensive filtering interface
+- **Loading & Error**: Consistent loading and error states
+- **DetailModal**: Detailed views for media items
+
+## 🌐 API Integration
+
+Integrates with TMDB (The Movie Database) API to fetch:
+- Trending movies and TV shows
+- Movie and TV show details
+- Person/actor information
+- Search results
+- Genre information
+
+## 📱 Responsive Features
+
+- Mobile-first responsive design
+- Custom horizontal scrolling with mouse wheel support
+- Touch-friendly interactive elements
+- Optimized for various screen sizes
+
+## 🔄 Data Management
+
+- API requests with proper loading/error states
+- LocalStorage caching for watchlist persistence
+- Comprehensive error handling with user feedback
+- Pagination for infinite scroll functionality
+
+## 🔐 Security & Privacy
+
+- API keys stored in environment variables
+- User data persistence through localStorage
+- Secure API communication with TMDB
+
+## ⚡ Performance Optimizations
+
+- Image lazy loading
+- Component memoization with React.memo
+- Efficient state management with Zustand
+- Optimized API requests
+
+## 💡 Learning Journey
+
+The project was developed over 12 days as part of a learning journey, implementing:
+- React 19 features and best practices
+- TypeScript type safety
+- Modern state management with Zustand
+- Animation and UI/UX principles
+- Testing fundamentals with Vitest
+- Component-based architecture
+
+## 🔧 Setup
+
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Create a `.env` file with your TMDB API key:
+   ```
+   VITE_APP_TMDB_API_KEY=your_api_key_here
+   ```
+4. Start the development server: `npm run dev`
+
+## 📝 Notes
+
+- This project was developed primarily for learning purposes
+- Testing is currently minimal but serves as a foundation for learning
+- The design follows inspiration from the Figma community design
+- All data comes from TMDB API and should be used in compliance with their terms
+
+## 🎯 Future Improvements
+
+- More comprehensive test coverage
+- Additional accessibility features
+- Enhanced search functionality
+- User authentication and personalization
+- Advanced filtering options
+- Performance optimizations
