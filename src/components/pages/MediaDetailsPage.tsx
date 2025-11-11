@@ -13,7 +13,7 @@ import avatar from '../../assets/54b19ada-d53e-4ee9-8882-9dfed1bf1396.jpg'
 import ReviewCard from "../shared/ReviewCard"
 import SectionRow from "../shared/SectionRow"
 import Error from "../shared/Error"
-import Similar from "../shared/Similar";
+
 
 
 interface recommendationState {
